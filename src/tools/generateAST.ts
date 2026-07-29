@@ -46,7 +46,8 @@ function createAstRules(input: string): AstDefinition{
  * @returns contents of class in a string
  */
 function generateFields(fields: Field[]): string {
-   let output = fields
+    let output = "    ";
+    output += fields
         .map(field => `${field.name}: ${field.type}`)
         .join(";\n    ");
 
@@ -111,8 +112,7 @@ ${methods}
  * @returns acceptor method line for classes
  */
 function generateAcceptMethod(className: string): string {
-    return `
-    accept<R>(visitor: Visitor<R>): R {
+    return `    accept<R>(visitor: Visitor<R>): R {
         return visitor.visit${className}Expr(this);
     }
 `;
@@ -127,13 +127,9 @@ function generateAcceptMethod(className: string): string {
 function generateClass(rules: AstDefinition): string{
         return `
 export class ${rules.className} extends Expr {
-
 ${generateFields(rules.fields)}
-
 ${generateConstructor(rules.fields)}
-
 ${generateAcceptMethod(rules.className)}
-
 }
 `;}
 
@@ -166,7 +162,9 @@ import { Token } from "../scanner/token";
     
     content += generateVisitor(rules);
     content += "\n";   
-    content += `export abstract class Expr {}\n\n`;
+    content += `export abstract class Expr {
+    abstract accept<R>(visitor: Visitor<R>): R;
+}\n\n`;
 
     for(let rule of rules)
     content += generateClass(rule);

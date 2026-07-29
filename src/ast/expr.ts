@@ -10,15 +10,15 @@ export interface Visitor<R> {
     visitUnaryExpr(expr: Unary): R;
 }
 
-export abstract class Expr {}
+export abstract class Expr {
+    abstract accept<R>(visitor: Visitor<R>): R;
+}
 
 
 export class Binary extends Expr {
-
-left: Expr;
+    left: Expr;
     operator: Token;
     right: Expr
-
 
     constructor(
         left: Expr,
@@ -32,19 +32,14 @@ left: Expr;
         this.right = right;
     }
 
-
-
     accept<R>(visitor: Visitor<R>): R {
         return visitor.visitBinaryExpr(this);
     }
 
-
 }
 
 export class Grouping extends Expr {
-
-expression: Expr
-
+    expression: Expr
 
     constructor(
         expression: Expr
@@ -54,19 +49,14 @@ expression: Expr
         this.expression = expression;
     }
 
-
-
     accept<R>(visitor: Visitor<R>): R {
         return visitor.visitGroupingExpr(this);
     }
 
-
 }
 
 export class Literal extends Expr {
-
-value: Object
-
+    value: Object
 
     constructor(
         value: Object
@@ -76,20 +66,15 @@ value: Object
         this.value = value;
     }
 
-
-
     accept<R>(visitor: Visitor<R>): R {
         return visitor.visitLiteralExpr(this);
     }
 
-
 }
 
 export class Unary extends Expr {
-
-operator: Token;
+    operator: Token;
     right: Expr
-
 
     constructor(
         operator: Token,
@@ -101,11 +86,8 @@ operator: Token;
         this.right = right;
     }
 
-
-
     accept<R>(visitor: Visitor<R>): R {
         return visitor.visitUnaryExpr(this);
     }
-
 
 }
