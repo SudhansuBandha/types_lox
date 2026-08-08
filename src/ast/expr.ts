@@ -1,7 +1,7 @@
 // This file is generated.
 // Do not edit manually.
 
-import { Token } from "../scanner/token";
+import { Token, LiteralValue } from "../scanner/token";
 
 export interface Visitor<R> {
     visitBinaryExpr(expr: Binary): R;
@@ -56,10 +56,10 @@ export class Grouping extends Expr {
 }
 
 export class Literal extends Expr {
-    value: Object
+    value: LiteralValue
 
     constructor(
-        value: Object
+        value: LiteralValue
     ) {
         super();
 

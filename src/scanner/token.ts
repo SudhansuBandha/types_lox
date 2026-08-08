@@ -1,6 +1,6 @@
 import { TokenType } from "./tokentype";
 
-export type Literal =
+export type LiteralValue =
     | string
     | number
     | boolean
@@ -11,7 +11,7 @@ export class Token {
     constructor(
         public readonly type: TokenType,
         public readonly lexeme: string,
-        public readonly literal: Literal,
+        public readonly literal: LiteralValue,
         public readonly line: number
     ) {}
 

@@ -1,4 +1,4 @@
-import { Literal, Token } from "./token";
+import { LiteralValue, Token } from "./token";
 import { TokenType } from "./tokentype";
 import { Lox } from "../lox";
 
@@ -123,7 +123,7 @@ export class Scanner {
     /*Create array of tokens*/
     private addToken(
         type: TokenType, 
-        value : Literal = null
+        value : LiteralValue = null
     ): void {
         const text
             = this.source.substring(this.start, this.current);

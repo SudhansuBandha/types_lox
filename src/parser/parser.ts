@@ -1,4 +1,4 @@
-import { Expr } from "../ast/expr";
+import { Expr, Grouping, Literal } from "../ast/expr";
 import { Token } from "../scanner/token";
 import { TokenType } from "../scanner/tokentype";
 
@@ -15,8 +15,8 @@ export class Parser{
     }
 
     private expression() : Expr | null{
-        //return this.equality();
-        return null;
+        return this.equality();
+        //return null;
     }
 
     /**
@@ -110,6 +110,47 @@ export class Parser{
 
         return new ParseError();
     }
+
+    private primary() : Expr {
+        
+        if (this.match(TokenType.FALSE)){
+            return new Literal(false);
+        }
+        
+        if (this.match(TokenType.TRUE)){
+            return new Literal(true);
+        }
+
+        if (this.match(TokenType.NIL)){
+            return new Literal(null);
+        }
+
+        if (this.match(TokenType.NUMBER, TokenType.STRING)){
+            return new Literal(this.previous().literal);
+        }
+
+        if (this.match(TokenType.LEFT_PAREN)){
+            const expr = this.expression();
+
+            this.consume(
+                TokenType.RIGHT_PAREN,
+                "Expect ')' after expression."
+            );
+
+            return new Grouping(new Literal("1"));
+        }
+
+        throw this.error(
+            this.peek(),
+            "Expect expression."
+        )
+
+    }
+
+    private equality() : Expr | null{
+        return this.primary();
+    }
+    
 }
 
 class ParseError extends Error {

@@ -145,7 +145,7 @@ try{
 const definitions = [
    "Binary : Expr left, Token operator, Expr right",
    "Grouping : Expr expression",
-   "Literal : Object value",
+   "Literal : LiteralValue value",
    "Unary : Token operator, Expr right"
 ];
 
@@ -154,7 +154,7 @@ try{
     let content = `// This file is generated.
 // Do not edit manually.
 
-import { Token } from "../scanner/token";
+import { Token, LiteralValue } from "../scanner/token";
 `;
  
 
