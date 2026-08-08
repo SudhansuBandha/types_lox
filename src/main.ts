@@ -15,8 +15,9 @@ import { AstPrinter } from "./visitors/astPrinter";
 //     Lox.runPrompt();
 // }
 
-const source = "123";
-
+//const source = "1*2*-3>4";
+//const source = "1 + 2 * 3 < 10 == true";
+const source = "1 == 2 == 3";
 const scanner = new Scanner(source);
 const tokens = scanner.scanTokens();
 

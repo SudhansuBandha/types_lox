@@ -1,4 +1,4 @@
-import { Expr, Grouping, Literal } from "../ast/expr";
+import { Binary, Expr, Grouping, Literal, Unary } from "../ast/expr";
 import { Token } from "../scanner/token";
 import { TokenType } from "../scanner/tokentype";
 
@@ -111,8 +111,83 @@ export class Parser{
         return new ParseError();
     }
 
-    private primary() : Expr {
+    private equality() : Expr {
+       let expr = this.comparison();
+
+        while (
+            this.match(
+                TokenType.BANG_EQUAL,
+                TokenType.EQUAL_EQUAL
+            )
+        ) {
+            const operator = this.previous();
+            const right = this.comparison();
+
+            expr = new Binary(expr, operator, right);
+        }
+
+    return expr;
+}
+
+   private comparison() : Expr{
+        let expr = this.term();
         
+        while(
+            this.match(
+                TokenType.GREATER,
+                TokenType.LESS,
+                TokenType.GREATER_EQUAL,
+                TokenType.LESS_EQUAL
+            )
+        ){
+            const operator = this.previous();
+            const right = this.term();
+
+            expr = new Binary(expr, operator , right);
+        }
+
+        return expr;
+    }
+
+    private term(): Expr {
+        let expr = this.factor();
+
+        while (this.match(TokenType.MINUS, TokenType.PLUS)) {
+            const operator = this.previous();
+            const right = this.factor();
+
+            expr = new Binary(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    private factor() : Expr {
+        let expr = this.unary();
+
+        while(this.match(TokenType.SLASH, TokenType.STAR)){
+            const operator = this.previous();
+            const right = this.unary();
+
+            expr = new Binary(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    private unary() : Expr {
+        if(this.match(TokenType.BANG, TokenType.MINUS)){
+            const operator = this.previous();
+            const right = this.unary();
+
+            return new Unary(operator, right);
+        }
+        return this.primary();
+    }
+
+
+    private primary() : Expr {
+
         if (this.match(TokenType.FALSE)){
             return new Literal(false);
         }
@@ -145,10 +220,6 @@ export class Parser{
             "Expect expression."
         )
 
-    }
-
-    private equality() : Expr | null{
-        return this.primary();
     }
     
 }
