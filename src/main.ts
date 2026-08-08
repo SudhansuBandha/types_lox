@@ -17,7 +17,8 @@ import { AstPrinter } from "./visitors/astPrinter";
 
 //const source = "1*2*-3>4";
 //const source = "1 + 2 * 3 < 10 == true";
-const source = "1 == 2 == 3";
+//const source = "1 == 2 == 3";
+const source = "1 + ;";
 const scanner = new Scanner(source);
 const tokens = scanner.scanTokens();
 

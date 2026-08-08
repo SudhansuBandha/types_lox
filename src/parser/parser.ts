@@ -11,7 +11,15 @@ export class Parser{
     }
 
     parse() : Expr | null{
-        return this.expression();
+        try {
+            return this.expression();
+        } catch (error) {
+        if (error instanceof ParseError) {
+            return null;
+        }
+
+        throw error;
+        }
     }
 
     private expression() : Expr | null{
@@ -103,11 +111,16 @@ export class Parser{
      * @param message 
      * @returns 
      */
-    private error(token: Token, message: string) : ParseError{
-                console.error(
-            `[line ${token.line}] Error at '${token.lexeme}': ${message}`
-        );
-
+    private error(token: Token, message: string) : ParseError {
+        if (token.type === TokenType.EOF) {
+            console.error(
+                `[line ${token.line}] Error at end: ${message}`
+            );
+        } else {
+            console.error(
+                `[line ${token.line}] Error at '${token.lexeme}': ${message}`
+            );
+        }
         return new ParseError();
     }
 
@@ -225,5 +238,8 @@ export class Parser{
 }
 
 class ParseError extends Error {
-
+     constructor() {
+        super();
+        this.name = "ParseError";
+    }
 }
