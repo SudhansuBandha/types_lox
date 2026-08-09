@@ -22,7 +22,7 @@ export class Parser{
         }
     }
 
-    private expression() : Expr | null{
+    private expression() : Expr {
         return this.equality();
         //return null;
     }
@@ -225,7 +225,7 @@ export class Parser{
                 "Expect ')' after expression."
             );
 
-            return new Grouping(new Literal("1"));
+            return new Grouping(expr);
         }
 
         throw this.error(

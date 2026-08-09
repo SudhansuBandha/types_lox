@@ -39,8 +39,11 @@ export class AstPrinter implements Visitor<string> {
         );
     }
 
-    print(expr: Expr){
-        return expr.accept(this);
+    print(expr: Expr | null){
+        if(expr)
+            return expr.accept(this);
+        else 
+            return null;
     }
 
     private parenthesize(

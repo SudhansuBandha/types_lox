@@ -1,9 +1,9 @@
-import { Binary, Expr, Grouping, Literal, Unary } from "../ast/expr";
-import { Token } from "../scanner/token";
-import { TokenType } from "../scanner/tokentype";
-import { AstPrinter } from "../visitors/astPrinter";
-import { NodeCounter } from "../visitors/nodeCounter";
-import { TestVisitor } from "../visitors/testVisitor";
+import { Binary, Expr, Grouping, Literal, Unary } from "../src/ast/expr";
+import { Token } from "../src/scanner/token";
+import { TokenType } from "../src/scanner/tokentype";
+import { AstPrinter } from "../src/visitors/astPrinter";
+import { NodeCounter } from "../src/visitors/nodeCounter";
+import { TestVisitor } from "../src/visitors/testVisitor";
 
 /**
  * We will create (-123) * (45.67)
